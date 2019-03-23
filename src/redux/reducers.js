@@ -13,6 +13,18 @@ const user = (state = [], action) => {
   }
 }
 
+const chatroomUsers = (state=[] , action) => {
+  switch(action.type) {
+    case 'ENTER_CHATROOM':
+      return [...state, action.user]
+    case 'LEAVE_CHATROOM':
+      return state.filter(user => user !== action.user);
+    default:
+      return state;
+  }
+}
+
+
 const offers = (state = [], action) => {
   switch(action.type) {
     case 'REQUEST_OFFERS':
@@ -43,6 +55,7 @@ const question = (state = [], action) => {
 }
 
 const reducers = combineReducers({
+  chatroomUsers,
   user,
   question,
   offers,

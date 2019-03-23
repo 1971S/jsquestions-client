@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './question-posted.scss';
 import { connect } from 'react-redux';
-import { fetchQuestionAndOffers } from '../../redux/actions.js';
+import { fetchQuestionAndOffers, enterChatroom, leaveChatroom } from '../../redux/actions.js';
 import Card from '../card/card.js';
 
 class QuestionPosted extends Component {
@@ -38,9 +38,9 @@ class QuestionPosted extends Component {
     )})
     .then(res => res.json())
     .then(question => {
-      console.log('updateQ question', question);
       question.tutor = tutorId; // adding the tutorId to the question
       this.props.socket.emit('chat now', question)
+      this.props.enterChatroom(this.props.user)
     })
 
   }
@@ -77,13 +77,15 @@ const mapStateToProps = (state) => ({
   user: state.user,
   offers: state.offers,
   tutors: state.tutors,
-  question: state.question
+  question: state.question,
+  chatroomUsers: state.chatroomUsers
 })
 
-const mapDispatchToProps = { fetchQuestionAndOffers };
+const mapDispatchToProps = { fetchQuestionAndOffers, enterChatroom, leaveChatroom };
 
 // const mapDispatchToProps = (dispatch) => ({
-//   fetchOffers: (questionid) => dispatch(fetchOffers(questionid))
+//   fetchQuestionAndOffers,
+//   enterChatroom: (user) => dispatch(enterChatroom(user))
 // })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionPosted);

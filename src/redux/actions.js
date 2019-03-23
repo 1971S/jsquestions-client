@@ -31,6 +31,26 @@ export const updateTutors = (tutor) => ({
 })
 
 
+
+// whenever learner enters the chatroom or when the tutor enters the chatroom
+export const enterChatroom = (user) => ({
+  type: 'ENTER_CHATROOM',
+  user
+})
+
+// learner waits in chatroom for tutor to join
+export const learnerWaiting = (user) => ({
+  type: 'LEARNER_WAITING',
+  user
+})
+
+// whenever learner leaves the chatroom (after timeout) --> we need to close tutor's chat invitation
+export const leaveChatroom = (user) => ({
+  type: 'LEAVE_CHATROOM',
+  user
+})
+
+
 export const fetchQuestionAndOffers = (questionid) => {
   return function (dispatch) {
     dispatch(requestOffers());

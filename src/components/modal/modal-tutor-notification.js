@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../log-in/log-in.scss';
 import { Link } from "react-router-dom";
 
-class Modal extends Component {
+class TutorNotification extends Component {
 
   render() {
     console.log()
@@ -18,4 +18,4 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+export default TutorNotification;

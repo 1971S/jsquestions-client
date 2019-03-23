@@ -20,12 +20,12 @@ class Chat extends React.Component {
     questionId: this.props.location.pathname.split('/')[3],
     tutorOrLearner: this.props.location.pathname.split('/')[4],
     showModal: false,
-    tutorJoined: false,
+    closeOverlay: true,
   }
  
   componentDidMount() {
 
-    this.props.socket.on('join room', () => this.setState({tutorJoined: true}));
+    this.props.socket.on('join room', () => this.setState({closeOverlay: true}));
 
     //const room = this.props.room; //Amber removed this ... TTD to refractor 
     this.props.socket.emit('join room', this.state.roomId)  
@@ -119,8 +119,8 @@ class Chat extends React.Component {
 
 
   toggleOverlay = () => {
-    if (!this.state.tutorJoined) {
-      return <Overlay closeOverlay={() => this.setState({tutorJoined: true}, () => this.props.history.goBack())}/>
+    if (!this.state.closeOverlay) {
+      return <Overlay closeOverlay={() => this.setState({closeOverlay: true}, () => this.props.history.goBack())}/>
     }
   }
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import './navbar.scss';
 import { connect } from 'react-redux';
-import { setToken } from '../../redux/actions.js';
+import { setToken, enterChatroom, leaveChatroom } from '../../redux/actions.js';
 import Login from '../log-in/log-in.js';
 import logo from '../../assets/square-logo.png';
 import token from '../../assets/token.png';
 import { Link } from "react-router-dom";
 import ProfileMenu from './profile-menu';
-import Modal from '../modal/modal.js';
+import TutorNotification from '../modal/modal-tutor-notification.js';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class Navbar extends React.Component {
 
   tutorNotification = () => {
     if (this.state.socketQuestion !== '') {
-      return <Modal question={this.state.socketQuestion} />
+      return <TutorNotification question={this.state.socketQuestion} />
     } else {
       return '';
     }
@@ -111,11 +111,14 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user
+  user: state.user,
+  chatroomUsers: state.chatroomUsers
 })
 
 const mapDispatchToProps = (dispatch) => ({
   setToken: (token) => dispatch(setToken(token)),
+  enterChatroom: (user) => dispatch(enterChatroom(user)),
+  leaveChatroom: (user) => dispatch(leaveChatroom(user))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
