@@ -31,7 +31,7 @@ class Chat extends React.Component {
     });
 
     //const room = this.props.room; //Amber removed this ... TTD to refractor 
-    this.props.socket.emit('join room', this.state.roomId)  
+    this.props.socket.emit('join room', this.state.roomId)
     
     // CHAT
     this.props.socket.on('chat message', (msg) => {
@@ -58,20 +58,15 @@ class Chat extends React.Component {
       content: this.textArea.current,
     })
     this.codemirror.on('blur', this.codeChanged);
-    this.props.socket.on('editor', (data) => this.codemirror.getDoc().setValue(data.code)); // handles received text
-    this.props.socket.on('newUser', this.updateCode); // this code is not working - what was its purpose?
+    this.props.socket.on('editor', (data) => this.codemirror.getDoc().setValue(data.code)); 
+    this.props.socket.on('newUser', this.updateCode); 
 
     //HANG-UP
     this.props.socket.on('hang up', () => {
-      //this.props.history.push('/');
       this.openChatModal()
     })
   }
 
-  //WHY WAS THIS HERE? -- This was added by Arol to prevent the editor from continuously re-rendering
-  // shouldComponentUpdate() {
-  //   return false;
-  // }
 
   updateCode = (data) => {
     this.codemirror.getDoc().setValue(data.code);
@@ -123,7 +118,7 @@ class Chat extends React.Component {
 
   renderOverlay = () => {
     if (this.state.tutorOrLearner === 'learner' && !this.state.tutorJoined) {
-      return <Overlay closeOverlay={(counter) => {
+      return <Overlay socket={this.props.socket} roomId={this.state.roomId} closeOverlay={(counter) => {
         clearInterval(counter);
         this.props.history.goBack()
         this.props.leaveChatroom(this.props.user);

@@ -15,6 +15,7 @@ class Overlay extends Component {
     const counter = setInterval(() => {
       this.setState({startTime: this.state.startTime - 1});
       if (this.state.startTime === 0) {
+        this.props.socket.emit('hang up', {roomId: this.props.roomId});
         this.props.closeOverlay();
         clearInterval(counter);
       }

@@ -16,7 +16,7 @@ const user = (state = [], action) => {
 const chatroomUsers = (state=[] , action) => {
   switch(action.type) {
     case 'ENTER_CHATROOM':
-      return [...state, action.user]
+      return [...state].concat(action.user)
     case 'LEAVE_CHATROOM':
       return state.filter(user => user !== action.user);
     default:

@@ -25,14 +25,16 @@ class Navbar extends React.Component {
     this.props.socket.on('push tutor', (question) => {
       console.log("works");
       this.setState({socketQuestion: question}, () => this.tutorNotification() );
-  })
-
-
+    })
+    this.props.socket.on('hang up', () => { // we are using this to check when the learner is timed out of the room
+      console.log('hang up!') // this is being listened to by learner instead of tutor
+      this.setState({socketQuestion: ''})
+    })
   }
 
   tutorNotification = () => {
     if (this.state.socketQuestion !== '') {
-      return <TutorNotification question={this.state.socketQuestion} />
+      return <TutorNotification user={this.props.user} enterChatroom={() => this.props.enterChatroom(this.props.user)} leaveChatroom={() => this.props.leaveChatroom(this.props.user)} question={this.state.socketQuestion} />
     } else {
       return '';
     }
