@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './chat.scss';
 
+import { connect } from 'react-redux';
+
 import CodeEditor from './codeeditor';
 import ChatMessages from './chat-messages';
 
@@ -22,6 +24,8 @@ class Chat extends Component {
   }
 
   componentDidMount() {
+
+    console.log('question?', this.props.question);
     //const room = this.props.room; //Amber removed this ... TTD to refractor
     this.props.socket.emit('join room', this.state.roomId)
 
@@ -81,7 +85,7 @@ class Chat extends Component {
         {this.state.tutorJoined ? null : this.renderOverlay()}
 
         <div className="chat-header">
-          <h1>Question Title</h1>
+          <h1>{this.props.question.title}</h1>
 
           <h3 id="timer" style={{color: this.state.overTime}}>{this.state.minutes}:{this.state.secondsString}</h3>
 
@@ -100,4 +104,10 @@ class Chat extends Component {
   }
 }
 
-export default Chat;
+const mapStateToProps = (state) => ({
+  question: state.question
+})
+
+// export default Chat;
+
+export default connect(mapStateToProps)(Chat);
